@@ -9,6 +9,6 @@ import org.nutz.mvc.ioc.provider.ComboIocProvider;
 @IocBy(type=ComboIocProvider.class,args={"*js", "ioc/",
         "*anno", "com.valerian",
         "*tx"})
-@Modules(scanPackage=true)
+@Modules(scanPackage=true) 
 public class MainModule {
 }

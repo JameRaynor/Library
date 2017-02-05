@@ -5,13 +5,17 @@ import org.nutz.dao.Dao;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
+import org.nutz.mvc.annotation.By;
+import org.nutz.mvc.annotation.Filters;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
+import org.nutz.mvc.filter.CheckSession;
 
 import com.valerian.bean.Reader;
 
 @IocBean
 @Ok("raw:json")
+@Filters(@By(type=CheckSession.class, args={"id", "/"}))
 @At("reader")
 public class ReaderModule {
 	

@@ -8,8 +8,11 @@ import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.json.Json;
 import org.nutz.mvc.annotation.At;
+import org.nutz.mvc.annotation.By;
+import org.nutz.mvc.annotation.Filters;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
+import org.nutz.mvc.filter.CheckSession;
 
 import com.valerian.bean.Manager;
 import com.valerian.bean.Reader;
@@ -18,12 +21,14 @@ import com.valerian.bean.TypeReturn;
 
 @IocBean
 @Ok("raw:json")
+@Filters(@By(type=CheckSession.class, args={"id", "/"}))
 public class NavigationModule {
 	
 	@Inject
 	protected Dao dao;
 
 	@At
+	@Filters
 	public Object readerLogin(@Param("id") int id, @Param("password") String password,
 			@Param("optionsRadios") String type, HttpSession session) {
 		if (type.equals("student")) {
@@ -44,6 +49,7 @@ public class NavigationModule {
 				return false;
 			} else {
 				session.setAttribute("user", manager.getM_name());
+				session.setAttribute("id", manager.getM_jobNo());
 				TypeReturn tr = new TypeReturn();
 				tr.setType("manager");
 				Object ob = Json.toJson(tr);
@@ -62,6 +68,7 @@ public class NavigationModule {
 	}
 	
 	@At
+	@Filters
 	public Object regist(@Param("id_regist") int id, @Param("name_regist") String name,
 			@Param("password_regist") String passwd, @Param("password_repeat") String repeat, HttpSession session) {
 		
@@ -102,6 +109,7 @@ public class NavigationModule {
 
 	@At
 	@Ok("jsp:pages.student")
+	@Filters
 	public void student(HttpSession session){
 	}
 	
