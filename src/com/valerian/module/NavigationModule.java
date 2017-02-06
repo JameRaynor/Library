@@ -21,14 +21,12 @@ import com.valerian.bean.TypeReturn;
 
 @IocBean
 @Ok("raw:json")
-@Filters(@By(type=CheckSession.class, args={"id", "/"}))
 public class NavigationModule {
 	
 	@Inject
 	protected Dao dao;
 
 	@At
-	@Filters
 	public Object readerLogin(@Param("id") int id, @Param("password") String password,
 			@Param("optionsRadios") String type, HttpSession session) {
 		if (type.equals("student")) {
@@ -68,7 +66,6 @@ public class NavigationModule {
 	}
 	
 	@At
-	@Filters
 	public Object regist(@Param("id_regist") int id, @Param("name_regist") String name,
 			@Param("password_regist") String passwd, @Param("password_repeat") String repeat, HttpSession session) {
 		
@@ -108,12 +105,13 @@ public class NavigationModule {
 	}
 
 	@At
+	@Filters(@By(type=CheckSession.class, args={"id", "/"}))
 	@Ok("jsp:pages.student")
-	@Filters
 	public void student(HttpSession session){
 	}
 	
 	@At
+	@Filters(@By(type=CheckSession.class, args={"id", "/"}))
 	@Ok("jsp:pages.manager")
 	public void manager(HttpSession session){
 	}

@@ -10,5 +10,5 @@ import org.nutz.mvc.ioc.provider.ComboIocProvider;
         "*anno", "com.valerian",
         "*tx"})
 @Modules(scanPackage=true) 
-public class MainModule {
+public class MainModule{
 }
