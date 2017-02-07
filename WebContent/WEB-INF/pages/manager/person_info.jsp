@@ -14,8 +14,32 @@
 	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	
+	<title>个人信息管理</title>
 	
-<title>乐图library管理系统</title>
+	<script type="text/javascript">
+	 $(function() {
+	        $("#btn_update_save").click(function() {
+	            $.ajax({
+	                url : "/Library/manager/update",
+	                cache: false,
+	                type: "POST",
+	                data:$('#form_update').serialize(),
+	                error: function(request) {
+	                    alert("Connection error,请检查您的网络是否正常连接");
+	                },
+	                dataType:"json",
+	                success: function(info) {
+	                    if (info == true) {
+	                        alert("修改成功");
+	                        location.reload();
+	                    } else {
+	                        alert("修改失败")
+	                    }
+	                }
+	            });
+	        });
+	    });		
+	</script>
 </head>
 <body style="padding-top: 0px;">
 	<nav class="navbar navbar-inverse" role="navigation">
@@ -81,18 +105,18 @@
                                     <input type="hidden" id="update_id" value="1"/>
                                     <div class="row">
                                         <div class="col-lg-12 form-group">
-                                            <label class="col-lg-3 control-label" for="update_sno">*&nbsp;工号</label>
+                                            <label class="col-lg-3 control-label" for="update_jobNo">*&nbsp;工号</label>
                                             <div class="col-lg-7">
-                                                <input class="form-control" id="update_sno" name="update_sno" type="text" value="<%=httpSession.getAttribute("id")%>" readonly = "readonly">
+                                                <input class="form-control" id="update_jobNo" name="update_jobNo" type="text" value="<%=httpSession.getAttribute("id")%>" readonly = "readonly">
                                                 <label class="control-label" for="update_sno"></label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-12 form-group has">
-                                            <label class="col-lg-3 control-label" for="update_sname">*&nbsp;姓名</label>
+                                            <label class="col-lg-3 control-label" for="update_mname">*&nbsp;姓名</label>
                                             <div class="col-lg-7">
-                                                <input class="form-control" id="update_sname" name="update_sname" type="text" value="<%=httpSession.getAttribute("user")%>">
+                                                <input class="form-control" id="update_mname" name="update_mname" type="text" value="<%=httpSession.getAttribute("user")%>">
                                                 <label class="control-label" for="update_sname"></label>
                                             </div>
                                         </div>
