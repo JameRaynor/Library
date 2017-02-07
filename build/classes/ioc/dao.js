@@ -8,11 +8,7 @@ var ioc = {
             fields : {
                 url : "jdbc:mysql://115.28.6.72:3306/library",
                 username : "root",
-<<<<<<< HEAD
                 password : "123",
-=======
-                password : "valerianJameRaynor",
->>>>>>> master
                 testWhileIdle : true,
                 validationQuery : "select 1" ,
                 maxActive : 100
