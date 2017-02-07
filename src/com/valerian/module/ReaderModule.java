@@ -54,6 +54,7 @@ public class ReaderModule {
 		
 		reader.setR_password(new_passwd);
 		dao.update(reader);
+		
 		return true;
 	}
 }
