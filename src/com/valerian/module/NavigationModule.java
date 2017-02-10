@@ -15,7 +15,7 @@ import org.nutz.mvc.annotation.Param;
 import org.nutz.mvc.filter.CheckSession;
 
 import com.valerian.bean.Manager;
-import com.valerian.bean.Reader;
+import com.valerian.bean.Student;
 import com.valerian.bean.TypeReturn;
 
 
@@ -30,7 +30,7 @@ public class NavigationModule {
 	public Object readerLogin(@Param("id") int id, @Param("password") String password,
 			@Param("optionsRadios") String type, HttpSession session) {
 		if (type.equals("student")) {
-			Reader reader = dao.fetch(Reader.class, Cnd.where("r_StuNo", "=", id).and("r_password", "=", password));
+			Student reader = dao.fetch(Student.class, Cnd.where("r_StuNo", "=", id).and("r_password", "=", password));
 			if (reader == null) {
 				return false;
 			} else {
@@ -74,9 +74,9 @@ public class NavigationModule {
 			return false;
 		}
 		
-		Reader reader = new Reader();
-		Reader reader_regist = new Reader();
-		reader = dao.fetch(Reader.class, Cnd.where("r_StuNo", "=", id));
+		Student reader = new Student();
+		Student reader_regist = new Student();
+		reader = dao.fetch(Student.class, Cnd.where("r_StuNo", "=", id));
 		// 判断是否已被注册
 		if (reader != null) {
 			return false;

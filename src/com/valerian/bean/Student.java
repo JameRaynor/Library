@@ -7,7 +7,7 @@ import org.nutz.dao.entity.annotation.Id;
 import org.nutz.dao.entity.annotation.Table;
 
 @Table("t_reader")
-public class Reader {
+public class Student {
 	
 	@Id
 	private int r_StuNo;
@@ -26,7 +26,7 @@ public class Reader {
 	@Column("clazz")
 	private String r_clazz;
 	@Column("borrow")
-	private String r_borrow;
+	private int r_borrow;
 
 	public int getR_StuNo() {
 		return r_StuNo;
@@ -92,11 +92,11 @@ public class Reader {
 		this.r_clazz = r_clazz;
 	}
 
-	public String getR_borrow() {
+	public int getR_borrow() {
 		return r_borrow;
 	}
 
-	public void setR_borrow(String r_borrow) {
+	public void setR_borrow(int r_borrow) {
 		this.r_borrow = r_borrow;
 	}
 

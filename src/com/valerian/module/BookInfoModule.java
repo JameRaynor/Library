@@ -29,17 +29,16 @@ public class BookInfoModule {
 
 		if (bno.equals("") & bname.equals("")) {
 			nm.put("ok", "no_info");
-			return nm;
 		} else if (!bno.equals("")) {
 			Book book = dao.fetch(Book.class, Cnd.where("book_no", "=", bno));
 			if (book == null) {
 				nm.put("ok", "invalid_bname");
 			} else {
-				System.out.println(Json.toJson(book));
 				String jsonStr = Json.toJson(book);
 				jsonStr = "[" + jsonStr + "]";
 				nm.put("ok", "yes");
 				nm.put("data", Json.fromJson(jsonStr));
+				System.out.println(nm);
 			}
 		} else {  
 			Book book = dao.fetch(Book.class, Cnd.where("book_name", "=", bname));
@@ -52,6 +51,7 @@ public class BookInfoModule {
 				nm.put("data", Json.fromJson(jsonStr));
 			}
 		}
+		
 		return nm;
 	}
 	
@@ -60,4 +60,5 @@ public class BookInfoModule {
 	public Object showLocation(@Param("clc")String clc){
 		return true;
 	}
+	
 }

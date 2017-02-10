@@ -49,8 +49,8 @@
 		            {"data": "price"},
 		            {"data": "gross"},
 		            {"data": "inlib"},
-		            {"data": "entry_date"},
-		            {"data": "room"}
+		            {"data": null},
+		            {"data": null}
 		        ],
 		        "columnDefs": [
 		                     {
@@ -102,7 +102,6 @@
 		}
 		
 	</script>
-
 </head>
 <body style="padding-top: 0px;">
 	<nav class="navbar navbar-inverse" role="navigation">

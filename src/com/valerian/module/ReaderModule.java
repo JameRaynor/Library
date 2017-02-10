@@ -11,7 +11,7 @@ import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
 import org.nutz.mvc.filter.CheckSession;
 
-import com.valerian.bean.Reader;
+import com.valerian.bean.Student;
 
 @IocBean
 @Ok("raw:json")
@@ -42,7 +42,7 @@ public class ReaderModule {
 			@Param("update_password") String origin_passwd, @Param("update_password_new") String new_passwd,
 			@Param("update_password_confirm") String confirm_passwd) {
 
-		Reader reader = dao.fetch(Reader.class,
+		Student reader = dao.fetch(Student.class,
 				Cnd.where("r_StuNo", "=", stu_no).and("r_password", "=", origin_passwd));
 		if (reader == null) {
 			return false;
