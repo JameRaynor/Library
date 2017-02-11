@@ -7,14 +7,90 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="author" content="by valerian">
 	
-	<!-- 导入bootstrap和jQuery -->
+	<!-- 导入bootstrap,jQuery和DataTable -->
 	<link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" href="/Library/plugins/css/bootstrap-admin-theme.css">
+	<link rel="stylesheet" href="/Library/plugins/css/jquery.dataTables.min.css">
 	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="/Library/plugins/js/jquery.dataTables.min.js"></script>
+	<script src="/Library/plugins/js/date_formate.js"></script>
 
 	<title>图书归还</title>
+	
+	<script type="text/javascript">
+		
+		var table;
+		
+		$(function () {
+			table = $('#data_list').DataTable({
+				"info": false,
+				"paging": false,
+				"searching": false,
+				
+				"ajax" : {
+		            "url": "/Library/manager/returnBook",
+		            "type": "POST",
+		            "data": function (d) {
+		                return {
+		                	"query_bno" : $('#query_bno').val(),
+		                    "query_stuno" : $('#query_stuno').val()
+		                };
+		            }
+		        },
+		        "columns": [
+		            {"data": "book_no"},
+		            {"data": "book_name"},
+		            {"data": "author"},
+		            {"data": "price"},
+		            {"data": "stu_no"},
+		            {"data": "stu_name"},
+		            {"data": null},
+		            {"data": null},
+		            {"data": null}
+		        ],
+		        "columnDefs": [
+								{
+								    targets: 6,
+								    render: function (a, b, c, d) {
+								        return (new Date(c.lend_time)).format('yyyy-MM-dd');
+								    }
+								},
+								{
+								    targets: 7,
+								    render: function (a, b, c, d) {
+								        return (new Date(convertDateFromString(c.lend_time).getTime()+c.lendLimit*24*3600*1000)).format('yyyy-MM-dd');
+								    }
+								},
+								{
+								    targets: 8,
+								    render: function (a, b, c, d) {
+								    	return ((new Date).diff(new Date(convertDateFromString(c.lend_time).getTime()+c.lendLimit*24*3600*1000))+"天");
+								    }
+								}
+			                 ]
+		    });
+		 });	
+		
+		function query() {
+		    table.ajax.reload();
+		}
+		
+		function convertDateFromString(dateString) { 
+			if (dateString) { 
+			var arr1 = dateString.split(" "); 
+			var sdate = arr1[0].split('-'); 
+			var date = new Date(sdate[0], sdate[1]-1, sdate[2]); 
+			return date;
+			}
+		}
+		
+		Date.prototype.diff = function(date){
+			return parseInt((this.getTime() - date.getTime())/(24 * 60 * 60 * 1000))+1;
+		}
+		
+	</script>
 </head>
 <body style="padding-top: 0px;">
 	<nav class="navbar navbar-inverse" role="navigation">
@@ -79,17 +155,17 @@
                             <form class="form-horizontal">
                                 <div class="row">
                                     <div class="col-lg-5 form-group">
-                                        <label class="col-lg-4 control-label" for="query_bno">学号</label>
+                                        <label class="col-lg-4 control-label" for="query_stuno">学号</label>
                                         <div class="col-lg-8">
-                                            <input class="form-control" id="query_bno" type="text" value="">
-                                            <label class="control-label" for="query_bno" style="display: none;"></label>
+                                            <input class="form-control" id="query_stuno" type="text" value="">
+                                            <label class="control-label" for="query_stuno" style="display: none;"></label>
                                         </div>
                                     </div>
                                     <div class="col-lg-5 form-group">
-                                        <label class="col-lg-4 control-label" for="query_bname">图书编号</label>
+                                        <label class="col-lg-4 control-label" for="query_bno">图书编号</label>
                                         <div class="col-lg-8">
-                                            <input class="form-control" id="query_bname" type="text" value="">
-                                            <label class="control-label" for="query_bname" style="display: none;"></label>
+                                            <input class="form-control" id="query_bno" type="text" value="">
+                                            <label class="control-label" for="query_bno" style="display: none;"></label>
                                         </div>
                                     </div>
                                     <div class="col-lg-2 form-group">
@@ -110,11 +186,11 @@
                             <th>图书名称</th>
                             <th>作者</th>
                             <th>价格</th>
-                            <th>学号</th>
+                            <th>学生学号</th>
                             <th>学生姓名</th>
                             <th>借阅日期</th>
-                            <th>截止还书日期</th>
-                            <th>超期天数</th>
+                            <th>还书日期</th>
+                            <th>超期</th>
                         </tr>
                         </thead>
                     </table>

@@ -21,7 +21,7 @@ import com.valerian.bean.Book;
 import com.valerian.bean.Lend;
 import com.valerian.bean.Manager;
 import com.valerian.bean.Student;
-import com.valerian.returnType.LendReturn;
+import com.valerian.result.LendResult;
 
 
 @IocBean
@@ -92,7 +92,7 @@ public class ManagerModule {
 		NutMap nm = new NutMap();
 		
 		//学号、图书编号判空
-		if(lend_sno==null|lend_bno==null){
+		if(lend_sno.equals("")|lend_bno.equals("")){
 			nm.put("ok", "学号或者图书编号为空");
 			return nm;
 		}
@@ -127,7 +127,7 @@ public class ManagerModule {
 		});
 		
 		//将返回结果包装
-		LendReturn lr = new LendReturn();
+		LendResult lr = new LendResult();
 		lr.setBook_no(book.getBook_no());
 		lr.setBook_name(book.getBook_name());
 		lr.setAuthor(book.getAuthor());
@@ -140,8 +140,58 @@ public class ManagerModule {
 		rData = "[" + rData + "]";
 		nm.put("ok","success");
 		nm.put("data", Json.fromJson(rData));
-		System.out.println(nm);
+		
 		return nm;
 	}
-
+	
+	@At
+	@Ok("json")
+	public Object returnBook(@Param("query_stuno")String stuNo,@Param("query_bno")String bookNo){
+		
+		NutMap nm = new NutMap();
+		
+		//学号、图书编号判空
+		if(stuNo.equals("")|bookNo.equals("")){
+			nm.put("ok", "学号或者图书编号为空");
+			return nm;
+		}
+		
+		Lend lend = dao.fetch(Lend.class,Cnd.where("stu_no","=",stuNo).and("book_no","=",bookNo));
+		Student stu = dao.fetch(Student.class,Cnd.where("r_Stuno","=",stuNo));
+		Book book = dao.fetch(Book.class,Cnd.where("book_no","=",bookNo));
+		
+		if(lend==null){
+			nm.put("ok", "未查询到借阅记录");
+			return nm;
+		}
+		
+		//进行还书事务
+		book.setInlib(book.getInlib()+1);
+		stu.setR_borrow(stu.getR_borrow()-1);
+		Trans.exec(new Atom(){
+		    public void run() {
+		    	dao.delete(lend);
+		    	dao.update(book);
+		    	dao.update(stu);
+		    }
+		});
+		
+		//将返回结果包装
+		LendResult lr = new LendResult();
+		lr.setBook_no(book.getBook_no());
+		lr.setBook_name(book.getBook_name());
+		lr.setAuthor(book.getAuthor());
+		lr.setPrice(book.getPrice());
+		lr.setStu_no(stu.getR_StuNo());
+		lr.setStu_name(stu.getR_name());
+		lr.setLend_time(lend.getLend_time());
+		lr.setLend_no(lend.getLend_no());
+		lr.setLendLimit(10);
+		String rData = Json.toJson(lr);
+		rData = "[" + rData + "]";
+		nm.put("ok","success");
+		nm.put("data", Json.fromJson(rData));
+		
+		return nm;
+	}
 }

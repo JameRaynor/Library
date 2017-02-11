@@ -1,8 +1,8 @@
-package com.valerian.returnType;
+package com.valerian.result;
 
 import java.util.Date;
 
-public class LendReturn {
+public class LendResult {
 
 	private int book_no;
 	private String book_name;
@@ -12,6 +12,8 @@ public class LendReturn {
 	private String stu_name;
 	private Date lend_time;
 	private int lend_no;
+	private int lendLimit;
+
 	public int getBook_no() {
 		return book_no;
 	}
@@ -74,6 +76,14 @@ public class LendReturn {
 
 	public void setLend_no(int lend_no) {
 		this.lend_no = lend_no;
+	}
+
+	public int getLendLimit() {
+		return lendLimit;
+	}
+
+	public void setLendLimit(int lendLimit) {
+		this.lendLimit = lendLimit;
 	}
 	
 }
