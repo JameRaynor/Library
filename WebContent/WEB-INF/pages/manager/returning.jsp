@@ -21,6 +21,7 @@
 	
 	<script type="text/javascript">
 		
+		var msg;
 		var table;
 		
 		$(function () {
@@ -28,6 +29,11 @@
 				"info": false,
 				"paging": false,
 				"searching": false,
+				
+				"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+					msg = aData;
+					alert(msg.success);
+		        },
 				
 				"ajax" : {
 		            "url": "/Library/manager/returnBook",
@@ -66,7 +72,12 @@
 								{
 								    targets: 8,
 								    render: function (a, b, c, d) {
-								    	return ((new Date).diff(new Date(convertDateFromString(c.lend_time).getTime()+c.lendLimit*24*3600*1000))+"天");
+								    	var outDays = ((new Date).diff(new Date(convertDateFromString(c.lend_time).getTime()+c.lendLimit*24*3600*1000)));
+								  		if(outDays>0){
+								  			return outDays+"天";
+								  		}else{
+								  			return "0天";
+								  		}
 								    }
 								}
 			                 ]
@@ -87,7 +98,7 @@
 		}
 		
 		Date.prototype.diff = function(date){
-			return parseInt((this.getTime() - date.getTime())/(24 * 60 * 60 * 1000))+1;
+			return parseInt((this.getTime() - date.getTime())/(24 * 60 * 60 * 1000));
 		}
 		
 	</script>
@@ -113,6 +124,8 @@
 				<ul class="dropdown-menu">
 					<li class="divider"></li>
 					<li><a href="/Library/manager/person_info"><strong>个人资料管理</strong></a></li>
+					<li class="divider"></li>
+					<li><a href="/Library/sysManager/sign"><strong>系统设置管理</strong></a></li>
 					<li class="divider"></li>
 					<li><a href="/Library/logout"><strong>退出乐图系统</strong></a></li>
 				</ul>

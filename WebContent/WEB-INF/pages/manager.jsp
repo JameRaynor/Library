@@ -38,6 +38,8 @@
 					<li class="divider"></li>
 					<li><a href="/Library/manager/person_info"><strong>个人资料管理</strong></a></li>
 					<li class="divider"></li>
+					<li><a href="/Library/sysManager/sign"><strong>系统设置管理</strong></a></li>
+					<li class="divider"></li>
 					<li><a href="/Library/logout"><strong>退出乐图系统</strong></a></li>
 				</ul>
 			</li>

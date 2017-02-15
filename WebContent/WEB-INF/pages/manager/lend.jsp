@@ -21,14 +21,20 @@
 	
 	<script type="text/javascript">
 		
+		var msg;
 		var table;
-		var lendLimit = 10;
+		var lendLimit = 0;
 		
 		$(function () {
 			table = $('#data_list').DataTable({
 				"info": false,
 				"paging": false,
 				"searching": false,
+				
+				"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+					msg = aData;
+					alert(msg.success);
+		        },
 				
 				"ajax" : {
 		            "url": "/Library/manager/lendout",
@@ -61,7 +67,7 @@
 							{
 							    targets: 7,
 							    render: function (a, b, c, d) {
-							    	
+							    	lendLimit = c.lendLimit;
 							        return (new Date(convertDateFromString(c.lend_time).getTime()+lendLimit*24*3600*1000)).format('yyyy-MM-dd');
 							    }
 							}
@@ -105,6 +111,8 @@
 				<ul class="dropdown-menu">
 					<li class="divider"></li>
 					<li><a href="/Library/manager/person_info"><strong>个人资料管理</strong></a></li>
+					<li class="divider"></li>
+					<li><a href="/Library/sysManager/sign"><strong>系统设置管理</strong></a></li>
 					<li class="divider"></li>
 					<li><a href="/Library/logout"><strong>退出乐图系统</strong></a></li>
 				</ul>

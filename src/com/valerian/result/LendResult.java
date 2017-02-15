@@ -13,6 +13,15 @@ public class LendResult {
 	private Date lend_time;
 	private int lend_no;
 	private int lendLimit;
+	private String success;
+	
+	public LendResult() {
+		this.book_name = "0";
+		this.author = "0";
+		this.stu_name = "0";
+		this.success = "0";
+		this.lend_time = new Date();
+	}
 
 	public int getBook_no() {
 		return book_no;
@@ -84,6 +93,14 @@ public class LendResult {
 
 	public void setLendLimit(int lendLimit) {
 		this.lendLimit = lendLimit;
+	}
+
+	public String getSuccess() {
+		return success;
+	}
+
+	public void setSuccess(String success) {
+		this.success = success;
 	}
 	
 }
