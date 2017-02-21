@@ -15,8 +15,82 @@
 	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="/Library/plugins/js/jquery.dataTables.min.js"></script>
+	<script src="/Library/plugins/js/date_formate.js"></script>
 	
-<title>借阅信息</title>
+	<title>借阅信息</title>
+	
+	<script type="text/javascript">
+	
+		var table;
+		
+		$(function () {
+			table = $('#data_list').DataTable({
+				"info": false,
+				"paging": false,
+				"searching": false,
+				
+				"ajax" : {
+		            "url": "/Library/reader/borrowInfo",
+		            "type": "POST",
+		            "data": function (d) {
+		                return {
+		                    "hello" : "hello"
+		                };
+		            }
+		        },
+		        "columns": [
+		            {"data": "book_no"},
+		            {"data": "book_name"},
+		            {"data": "author"},
+		            {"data": "price"},
+		            {"data": "stu_no"},
+		            {"data": "stu_name"},
+		            {"data": null},
+		            {"data": null},
+		            {"data": null}
+		        ],
+		        "columnDefs": [
+								{
+								    targets: 6,
+								    render: function (a, b, c, d) {
+								        return (new Date(c.lend_time)).format('yyyy-MM-dd');
+								    }
+								},
+								{
+								    targets: 7,
+								    render: function (a, b, c, d) {
+								        return (new Date(convertDateFromString(c.lend_time).getTime()+c.lendLimit*24*3600*1000)).format('yyyy-MM-dd');
+								    }
+								},
+								{
+								    targets: 8,
+								    render: function (a, b, c, d) {
+								    	var outDays = ((new Date).diff(new Date(convertDateFromString(c.lend_time).getTime()+c.lendLimit*24*3600*1000)));
+								  		if(outDays>0){
+								  			return outDays+"天";
+								  		}else{
+								  			return "0天";
+								  		}
+								    }
+								}
+			                 ]
+		    });
+		 });
+		
+		function convertDateFromString(dateString) { 
+			if (dateString) { 
+			var arr1 = dateString.split(" "); 
+			var sdate = arr1[0].split('-'); 
+			var date = new Date(sdate[0], sdate[1]-1, sdate[2]); 
+			return date;
+			}
+		}
+		
+		Date.prototype.diff = function(date){
+			return parseInt((this.getTime() - date.getTime())/(24 * 60 * 60 * 1000));
+		}
+				
+	</script>
 </head>
 <body style="padding-top: 0px">
 	<nav class="navbar navbar-inverse" role="navigation">
@@ -79,9 +153,9 @@
                             <th>作者</th>
                             <th>价格</th>
                             <th>学号</th>
-                            <th>学生姓名</th>
+                            <th>姓名</th>
                             <th>借阅日期</th>
-                            <th>截止还书日期</th>
+                            <th>还书日期</th>
                             <th>超期天数</th>
                         </tr>
                         </thead>

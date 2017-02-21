@@ -9,7 +9,7 @@ import org.nutz.dao.entity.annotation.Table;
 @Table("t_reader")
 public class Student {
 	
-	@Id
+	@Id(auto=false)
 	private int r_StuNo;
 	@Column
 	private String r_name;

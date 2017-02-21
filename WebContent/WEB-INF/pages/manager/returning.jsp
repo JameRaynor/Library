@@ -101,6 +101,26 @@
 			return parseInt((this.getTime() - date.getTime())/(24 * 60 * 60 * 1000));
 		}
 		
+		function sign() {
+			$.ajax({
+	    	    url : "http://localhost:8080/Library/systemModule/sign",
+	    	    type : "POST",
+	    	    data: {
+	    	    	"hello":"hello"
+	    	    },
+	    	    error: function(request) {
+	    	        alert("Connection error");
+	    	    },
+	    	    dataType:"json",
+	    	    success: function(data) {
+	    	        if (data == true) {
+	    	        	location.href="http://localhost:8080/Library/systemModule/sysManager";
+	    	        } else {
+	    	            alert("您没有足够的权限！");
+	    	        }
+	    	    }
+	    	});
+		}
 	</script>
 </head>
 <body style="padding-top: 0px;">
@@ -125,7 +145,7 @@
 					<li class="divider"></li>
 					<li><a href="/Library/manager/person_info"><strong>个人资料管理</strong></a></li>
 					<li class="divider"></li>
-					<li><a href="/Library/sysManager/sign"><strong>系统设置管理</strong></a></li>
+					<li onclick="sign()"><a><strong>系统设置管理</strong></a></li>
 					<li class="divider"></li>
 					<li><a href="/Library/logout"><strong>退出乐图系统</strong></a></li>
 				</ul>

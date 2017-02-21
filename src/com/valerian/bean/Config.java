@@ -6,13 +6,13 @@ import org.nutz.dao.entity.annotation.Table;
 
 @Table("t_config")
 public class Config {
-	
+
 	@Id
 	private int no;
 	@Column
-	private int daysLimit;
+	private String item;
 	@Column
-	private int booksLimit;
+	private int value;
 
 	public int getNo() {
 		return no;
@@ -22,20 +22,23 @@ public class Config {
 		this.no = no;
 	}
 
+	public String getItem() {
+		return item;
+	}
+
+	public void setItem(String item) {
+		this.item = item;
+	}
+
+	public int getValue() {
+		return value;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
+	}
+
 	public int getDaysLimit() {
-		return daysLimit;
+		return 0;
 	}
-
-	public void setDaysLimit(int daysLimit) {
-		this.daysLimit = daysLimit;
-	}
-
-	public int getBooksLimit() {
-		return booksLimit;
-	}
-
-	public void setBooksLimit(int booksLimit) {
-		this.booksLimit = booksLimit;
-	}
-
 }

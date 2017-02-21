@@ -56,7 +56,6 @@ public class NavigationModule {
 		} else {
 			return false;
 		}
-
 	}
 	
 	@At

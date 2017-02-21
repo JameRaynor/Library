@@ -94,7 +94,7 @@ public class ManagerModule {
 	public Object lendout(@Param("lend_sno")String lend_sno,@Param("lend_bno")String lend_bno){
 		
 		NutMap nm = new NutMap();
-		Config config = dao.fetch(Config.class,Cnd.where("no","=","1"));
+		Config config = dao.fetch(Config.class,Cnd.where("item","=","booksLimit"));
 		
 		//学号、图书编号判空
 		if(lend_sno.equals("")|lend_bno.equals("")){
@@ -129,7 +129,7 @@ public class ManagerModule {
 		}
 		
 		//判断学生借阅数量是否未超过限制
-		if(stu.getR_borrow()>=config.getBooksLimit()){
+		if(stu.getR_borrow()>=config.getValue()){
 			LendResult lr = new LendResult();
 			lr.setSuccess("该学生借阅数量超过限制");
 			String rData = Json.toJson(lr);

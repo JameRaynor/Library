@@ -4,15 +4,14 @@ import java.util.Date;
 
 import org.nutz.dao.entity.annotation.Column;
 import org.nutz.dao.entity.annotation.Id;
-import org.nutz.dao.entity.annotation.Name;
 import org.nutz.dao.entity.annotation.Table;
 
 @Table("t_manager")
 public class Manager {
 
-	@Id
+	@Id(auto=false)
 	private int m_jobNo;
-	@Name
+	@Column
 	private String m_name;
 	@Column("sex")
 	private String m_sex;
